@@ -19,7 +19,7 @@ export default class App extends React.Component {
   //   );
   // }
 }
-
+//4Head
 // if (typeof window !== 'undefined') {
 //   ReactDOM.render(<App />, document.getElementById('app'));
 // }
