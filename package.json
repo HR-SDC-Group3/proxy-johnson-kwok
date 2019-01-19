@@ -8,7 +8,8 @@
   },
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/index.js",
+    "stress-test": "k6 run server/k6Script.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
