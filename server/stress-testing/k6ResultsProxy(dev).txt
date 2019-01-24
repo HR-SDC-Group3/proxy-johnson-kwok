@@ -1,0 +1,332 @@
+// ******************** k6 Setup File (GET requests) ******************** //
+
+import http from 'k6/http';
+import { sleep, check } from 'k6';
+
+ export const options = {
+  vus: 100,
+  rps: 1000,
+  duration: '5m',
+};
+
+ export default function() {
+  const randomId = Math.floor(Math.random() * (10000000 - 8000000 + 1)) + 8000000;
+  const response = http.get(`http://localhost:3000/api/restaurants/${randomId}/reviews`);    // reviews proxy
+  check(response, {
+    "status was 200": (r) => r.status == 200,    // for GET requests
+    "transaction time OK": (r) => r.timings.duration < 2000
+  });
+};
+
+// ******************** 1 RPS GET (5 min) ******************** //
+
+          /\      |‾‾|  /‾‾/  /‾/
+     /\  /  \     |  |_/  /  / /
+    /  \/    \    |      |  /  ‾‾\
+   /          \   |  |‾\  \ | (_) |
+  / __________ \  |__|  \__\ \___/ .io
+
+  execution: local
+     output: -
+     script: server/k6Script.js
+
+    duration: 5m0s, iterations: -
+         vus: 100,  max: 100
+
+    done [==========================================================] 5m0s / 5m0s
+
+    ✓ status was 200
+    ✓ transaction time OK
+
+    checks.....................: 100.00% ✓ 600   ✗ 0
+    data_received..............: 813 kB  2.7 kB/s
+    data_sent..................: 33 kB   110 B/s
+    http_req_blocked...........: avg=497.45µs min=294µs   med=451µs   max=2.62ms   p(90)=662.5µs p(95)=776.25µs
+    http_req_connecting........: avg=358.58µs min=211µs   med=319µs   max=1.46ms   p(90)=509.2µs p(95)=594.1µs
+    http_req_duration..........: avg=14.3ms   min=7.47ms  med=10.68ms max=847.82ms p(90)=15.38ms p(95)=18.15ms
+    http_req_receiving.........: avg=63.2µs   min=35µs    med=54µs    max=271µs    p(90)=94.4µs  p(95)=124.05µs
+    http_req_sending...........: avg=123.13µs min=57µs    med=110.5µs max=574µs    p(90)=181.1µs p(95)=213.1µs
+    http_req_tls_handshaking...: avg=0s       min=0s      med=0s      max=0s       p(90)=0s      p(95)=0s
+    http_req_waiting...........: avg=14.11ms  min=7.28ms  med=10.5ms  max=847.61ms p(90)=15.09ms p(95)=17.98ms
+    http_reqs..................: 300     1/s
+    iteration_duration.........: avg=1m23s    min=40.44ms med=1m39s   max=1m40s    p(90)=1m40s   p(95)=1m40s
+    iterations.................: 300     1/s
+    vus........................: 100     min=100 max=100
+    vus_max....................: 100     min=100 max=100
+
+// ******************** 10 RPS GET (5 min) ******************** //
+
+          /\      |‾‾|  /‾‾/  /‾/
+     /\  /  \     |  |_/  /  / /
+    /  \/    \    |      |  /  ‾‾\
+   /          \   |  |‾\  \ | (_) |
+  / __________ \  |__|  \__\ \___/ .io
+
+  execution: local
+     output: -
+     script: server/k6Script.js
+
+    duration: 5m0s, iterations: -
+         vus: 100,  max: 100
+
+    done [==========================================================] 5m0s / 5m0s
+
+    ✓ status was 200
+    ✓ transaction time OK
+
+    checks.....................: 100.00% ✓ 6000  ✗ 0
+    data_received..............: 8.1 MB  27 kB/s
+    data_sent..................: 333 kB  1.1 kB/s
+    http_req_blocked...........: avg=560.03µs min=249µs   med=496µs  max=10.08ms p(90)=786.19µs p(95)=959.04µs
+    http_req_connecting........: avg=405.81µs min=180µs   med=352µs  max=9.94ms  p(90)=572.09µs p(95)=722.14µs
+    http_req_duration..........: avg=13.88ms  min=5.34ms  med=9.52ms max=1s      p(90)=13.36ms  p(95)=15.25ms
+    http_req_receiving.........: avg=70.88µs  min=26µs    med=57µs   max=1.35ms  p(90)=104µs    p(95)=137µs
+    http_req_sending...........: avg=145.65µs min=58µs    med=130µs  max=862µs   p(90)=212µs    p(95)=256.04µs
+    http_req_tls_handshaking...: avg=0s       min=0s      med=0s     max=0s      p(90)=0s       p(95)=0s
+    http_req_waiting...........: avg=13.67ms  min=5.08ms  med=9.29ms max=1s      p(90)=13.12ms  p(95)=15.02ms
+    http_reqs..................: 3000    9.999996/s
+    iteration_duration.........: avg=9.83s    min=42.87ms med=9.99s  max=10.99s  p(90)=10s      p(95)=10s
+    iterations.................: 3000    9.999996/s
+    vus........................: 100     min=100 max=100
+    vus_max....................: 100     min=100 max=100
+
+// ******************** 100 RPS GET (5 min) ******************** //
+
+          /\      |‾‾|  /‾‾/  /‾/
+     /\  /  \     |  |_/  /  / /
+    /  \/    \    |      |  /  ‾‾\
+   /          \   |  |‾\  \ | (_) |
+  / __________ \  |__|  \__\ \___/ .io
+
+  execution: local
+     output: -
+     script: server/k6Script.js
+
+    duration: 5m0s, iterations: -
+         vus: 100,  max: 100
+
+    done [==========================================================] 5m0s / 5m0s
+
+    ✓ status was 200
+    ✓ transaction time OK
+
+    checks.....................: 100.00% ✓ 59922 ✗ 0
+    data_received..............: 80 MB   268 kB/s
+    data_sent..................: 3.3 MB  11 kB/s
+    http_req_blocked...........: avg=1.36ms   min=171µs   med=432µs    max=196.81ms p(90)=659µs    p(95)=951µs
+    http_req_connecting........: avg=1.24ms   min=105µs   med=310µs    max=196.7ms  p(90)=501µs    p(95)=778µs
+    http_req_duration..........: avg=95.43ms  min=3.47ms  med=18.34ms  max=1.22s    p(90)=276.67ms p(95)=587.82ms
+    http_req_receiving.........: avg=63.13µs  min=17µs    med=56µs     max=7.02ms   p(90)=83µs     p(95)=100µs
+    http_req_sending...........: avg=110.01µs min=36µs    med=100µs    max=9.63ms   p(90)=150µs    p(95)=174µs
+    http_req_tls_handshaking...: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s
+    http_req_waiting...........: avg=95.26ms  min=3.37ms  med=18.17ms  max=1.22s    p(90)=276.51ms p(95)=587.51ms
+    http_reqs..................: 29961   99.869846/s
+    iteration_duration.........: avg=999.6ms  min=55.41ms med=999.65ms max=2.18s    p(90)=1.08s    p(95)=1.17s
+    iterations.................: 29961   99.869846/s
+    vus........................: 100     min=100 max=100
+    vus_max....................: 100     min=100 max=100
+
+// ******************** 1000 RPS GET (5 min) ******************** //
+
+          /\      |‾‾|  /‾‾/  /‾/
+     /\  /  \     |  |_/  /  / /
+    /  \/    \    |      |  /  ‾‾\
+   /          \   |  |‾\  \ | (_) |
+  / __________ \  |__|  \__\ \___/ .io
+
+  execution: local
+     output: -
+     script: server/k6Script.js
+
+    duration: 5m0s, iterations: -
+         vus: 100,  max: 100
+
+    done [==========================================================] 5m0s / 5m0s
+
+    ✓ status was 200
+    ✗ transaction time OK
+     ↳  99% — ✓ 47422 / ✗ 190
+
+    checks.....................: 99.80% ✓ 94964 ✗ 190
+    data_received..............: 123 MB 410 kB/s
+    data_sent..................: 5.3 MB 18 kB/s
+    http_req_blocked...........: avg=1.28ms   min=182µs  med=375µs    max=4.59s  p(90)=568µs    p(95)=690µs
+    http_req_connecting........: avg=1.16ms   min=125µs  med=267µs    max=4.59s  p(90)=417µs    p(95)=539µs
+    http_req_duration..........: avg=628.03ms min=4.44ms med=604.56ms max=7.81s  p(90)=927.88ms p(95)=1.02s
+    http_req_receiving.........: avg=58.98µs  min=12µs   med=50µs     max=6.94ms p(90)=82µs     p(95)=108µs
+    http_req_sending...........: avg=98.08µs  min=34µs   med=86µs     max=2.9ms  p(90)=136µs    p(95)=166µs
+    http_req_tls_handshaking...: avg=0s       min=0s     med=0s       max=0s     p(90)=0s       p(95)=0s
+    http_req_waiting...........: avg=627.88ms min=4.25ms med=604.37ms max=7.81s  p(90)=927.71ms p(95)=1.02s
+    http_reqs..................: 47577  158.589865/s
+    iteration_duration.........: avg=630.07ms min=5.18ms med=605.97ms max=7.81s  p(90)=929.37ms p(95)=1.02s
+    iterations.................: 47577  158.589865/s
+    vus........................: 100    min=100 max=100
+    vus_max....................: 100    min=100 max=100
+
+// ******************** k6 Setup File (POST requests) ******************** //
+
+import http from 'k6/http';
+import { sleep, check } from 'k6';
+
+ export const options = {
+  vus: 100,
+  rps: 1000,
+  duration: '5m',
+};
+
+ export default function() {
+  const randomId = Math.floor(Math.random() * (10000000 - 8000000 + 1)) + 8000000;
+  const response = http.post(`http://localhost:3000/api/restaurants/${randomId}/reviews`);      // reviews proxy
+  check(response, {
+    "status was 201": (r) => r.status == 201,       // for POST requests
+    "transaction time OK": (r) => r.timings.duration < 2000
+  });
+};
+
+// ******************** 1 RPS POST (5 min) ******************** //
+
+          /\      |‾‾|  /‾‾/  /‾/
+     /\  /  \     |  |_/  /  / /
+    /  \/    \    |      |  /  ‾‾\
+   /          \   |  |‾\  \ | (_) |
+  / __________ \  |__|  \__\ \___/ .io
+
+  execution: local
+     output: -
+     script: server/k6Script.js
+
+    duration: 5m0s, iterations: -
+         vus: 100,  max: 100
+
+    done [==========================================================] 5m0s / 5m0s
+
+    ✓ status was 201
+    ✓ transaction time OK
+
+    checks.....................: 100.00% ✓ 600   ✗ 0
+    data_received..............: 196 kB  652 B/s
+    data_sent..................: 39 kB   130 B/s
+    http_req_blocked...........: avg=518.17µs min=304µs   med=450.5µs max=4.12ms  p(90)=640.3µs p(95)=914.1µs
+    http_req_connecting........: avg=363.72µs min=216µs   med=319.5µs max=1.48ms  p(90)=485.1µs p(95)=684.5µs
+    http_req_duration..........: avg=11.5ms   min=7.18ms  med=10.11ms max=92.03ms p(90)=16.16ms p(95)=19.91ms
+    http_req_receiving.........: avg=60.99µs  min=33µs    med=53µs    max=276µs   p(90)=87.2µs  p(95)=105.05µs
+    http_req_sending...........: avg=121.51µs min=61µs    med=108µs   max=977µs   p(90)=164.3µs p(95)=205.5µs
+    http_req_tls_handshaking...: avg=0s       min=0s      med=0s      max=0s      p(90)=0s      p(95)=0s
+    http_req_waiting...........: avg=11.32ms  min=7.08ms  med=9.88ms  max=91.78ms p(90)=15.82ms p(95)=19.67ms
+    http_reqs..................: 300     1/s
+    iteration_duration.........: avg=1m23s    min=97.09ms med=1m39s   max=1m40s   p(90)=1m40s   p(95)=1m40s
+    iterations.................: 300     1/s
+    vus........................: 100     min=100 max=100
+    vus_max....................: 100     min=100 max=100
+
+// ******************** 10 RPS POST (5 min) ******************** //
+
+          /\      |‾‾|  /‾‾/  /‾/
+     /\  /  \     |  |_/  /  / /
+    /  \/    \    |      |  /  ‾‾\
+   /          \   |  |‾\  \ | (_) |
+  / __________ \  |__|  \__\ \___/ .io
+
+  execution: local
+     output: -
+     script: server/k6Script.js
+
+    duration: 5m0s, iterations: -
+         vus: 100,  max: 100
+
+    done [==========================================================] 5m0s / 5m0s
+
+    ✗ status was 201
+     ↳  99% — ✓ 2992 / ✗ 10
+    ✓ transaction time OK
+
+    checks.....................: 99.83% ✓ 5990  ✗ 10
+    data_received..............: 2.0 MB 6.5 kB/s
+    data_sent..................: 393 kB 1.3 kB/s
+    http_req_blocked...........: avg=482.98µs min=251µs   med=465µs  max=4.65ms   p(90)=581µs   p(95)=654.04µs
+    http_req_connecting........: avg=349.44µs min=177µs   med=332µs  max=4.54ms   p(90)=410µs   p(95)=474.14µs
+    http_req_duration..........: avg=10.64ms  min=4.96ms  med=8.32ms max=950.88ms p(90)=11.68ms p(95)=14.2ms
+    http_req_receiving.........: avg=62.96µs  min=33µs    med=53µs   max=1.27ms   p(90)=89µs    p(95)=112µs
+    http_req_sending...........: avg=119.93µs min=54µs    med=115µs  max=588µs    p(90)=165µs   p(95)=188µs
+    http_req_tls_handshaking...: avg=0s       min=0s      med=0s     max=0s       p(90)=0s      p(95)=0s
+    http_req_waiting...........: avg=10.46ms  min=4.78ms  med=8.13ms max=950.72ms p(90)=11.49ms p(95)=14ms
+    http_reqs..................: 3000   9.999993/s
+    iteration_duration.........: avg=9.83s    min=41.14ms med=9.99s  max=10.94s   p(90)=10s     p(95)=10s
+    iterations.................: 3000   9.999993/s
+    vus........................: 100    min=100 max=100
+    vus_max....................: 100    min=100 max=100
+
+// ******************** 100 RPS POST (5 min) ******************** //
+
+          /\      |‾‾|  /‾‾/  /‾/
+     /\  /  \     |  |_/  /  / /
+    /  \/    \    |      |  /  ‾‾\
+   /          \   |  |‾\  \ | (_) |
+  / __________ \  |__|  \__\ \___/ .io
+
+  execution: local
+     output: -
+     script: server/k6Script.js
+
+    duration: 5m0s, iterations: -
+         vus: 100,  max: 100
+
+    done [==========================================================] 5m0s / 5m0s
+
+    ✓ transaction time OK
+    ✗ status was 201
+     ↳  99% — ✓ 29864 / ✗ 116
+
+    checks.....................: 99.80% ✓ 59828 ✗ 116
+    data_received..............: 19 MB  64 kB/s
+    data_sent..................: 3.9 MB 13 kB/s
+    http_req_blocked...........: avg=1.28ms   min=181µs   med=432µs    max=178.78ms p(90)=750µs    p(95)=1.12ms
+    http_req_connecting........: avg=1.15ms   min=128µs   med=309µs    max=178.69ms p(90)=579µs    p(95)=931µs
+    http_req_duration..........: avg=91.58ms  min=3.76ms  med=11.88ms  max=1.31s    p(90)=281.39ms p(95)=488.82ms
+    http_req_receiving.........: avg=63.68µs  min=18µs    med=55µs     max=2.42ms   p(90)=87µs     p(95)=108µs
+    http_req_sending...........: avg=112.68µs min=31µs    med=101µs    max=3.5ms    p(90)=157µs    p(95)=188µs
+    http_req_tls_handshaking...: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s
+    http_req_waiting...........: avg=91.4ms   min=3.65ms  med=11.71ms  max=1.31s    p(90)=281.13ms p(95)=488.66ms
+    http_reqs..................: 29972  99.906641/s
+    iteration_duration.........: avg=999.24ms min=70.76ms med=999.82ms max=2.17s    p(90)=1.1s     p(95)=1.19s
+    iterations.................: 29972  99.906641/s
+    vus........................: 100    min=100 max=100
+    vus_max....................: 100    min=100 max=100
+
+// ******************** 1000 RPS POST (5 min) ******************** //
+
+          /\      |‾‾|  /‾‾/  /‾/
+     /\  /  \     |  |_/  /  / /
+    /  \/    \    |      |  /  ‾‾\
+   /          \   |  |‾\  \ | (_) |
+  / __________ \  |__|  \__\ \___/ .io
+
+  execution: local
+     output: -
+     script: server/k6Script.js
+
+    duration: 5m0s, iterations: -
+         vus: 100,  max: 100
+
+    done [==========================================================] 5m0s / 5m0s
+
+    ✗ status was 201
+     ↳  99% — ✓ 53893 / ✗ 211
+    ✗ transaction time OK
+     ↳  99% — ✓ 54082 / ✗ 22
+
+    checks.....................: 99.78% ✓ 107903 ✗ 233
+    data_received..............: 28 MB  93 kB/s
+    data_sent..................: 7.1 MB 24 kB/s
+    http_req_blocked...........: avg=655.99µs min=181µs    med=375µs    max=717.09ms p(90)=577µs    p(95)=702µs
+    http_req_connecting........: avg=542.1µs  min=129µs    med=268µs    max=716.98ms p(90)=432µs    p(95)=551µs
+    http_req_duration..........: avg=553.04ms min=223.65ms med=504.99ms max=2.21s    p(90)=779.25ms p(95)=948.38ms
+    http_req_receiving.........: avg=58.53µs  min=10µs     med=50µs     max=10.91ms  p(90)=79µs     p(95)=104µs
+    http_req_sending...........: avg=100.42µs min=35µs     med=87µs     max=9.88ms   p(90)=138µs    p(95)=169µs
+    http_req_tls_handshaking...: avg=0s       min=0s       med=0s       max=0s       p(90)=0s       p(95)=0s
+    http_req_waiting...........: avg=552.88ms min=223.56ms med=504.85ms max=2.21s    p(90)=779.05ms p(95)=948.25ms
+    http_reqs..................: 54068  180.226561/s
+    iteration_duration.........: avg=554.39ms min=227.26ms med=506.32ms max=2.21s    p(90)=781.04ms p(95)=950.93ms
+    iterations.................: 54068  180.226561/s
+    vus........................: 100    min=100  max=100
+    vus_max....................: 100    min=100  max=100
